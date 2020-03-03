@@ -1,0 +1,18 @@
+helmDefaults:
+  tillerless: true
+  atomic: false
+  verify: false
+  wait: true
+  timeout: 1200
+
+repositories:
+- name: stable
+  url: https://kubernetes-charts.storage.googleapis.com
+
+releases:
+- name: prometheus-adapter
+  chart: stable/prometheus-adapter
+  version: 2.1.2
+  namespace: default
+  values:
+  - "./config/prometheus-adapter.yaml"

@@ -1,0 +1,10 @@
+/.idea
+/.env.*
+/infrastructure/terraform/kube_config
+/infrastructure/terraform/.terraform
+/infrastructure/terraform/.terraform/*
+/COMMANDS.md
+/kafka.config.properties
+/auth
+infrastructure/terraform/terraform.tfstate
+infrastructure/terraform/terraform.tfstate.backup

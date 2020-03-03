@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: operation-service
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: operation-service
+  template:
+    metadata:
+      labels:
+        app: operation-service
+    spec:
+      containers:
+      - image: containerrregistryscalablemicroservice.azurecr.io/operation_service
+        name: operation-service
+        imagePullPolicy: Always
+        envFrom:
+        - secretRef:
+            name: kafka
+        - secretRef:
+            name: mongodb
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: operation-service
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: operation-service

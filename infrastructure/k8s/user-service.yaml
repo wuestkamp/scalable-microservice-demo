@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+      - image: containerrregistryscalablemicroservice.azurecr.io/user_service
+        name: user-service
+        imagePullPolicy: Always
+        envFrom:
+        - secretRef:
+            name: kafka
+        - secretRef:
+            name: mongodb
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi

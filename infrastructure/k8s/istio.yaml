@@ -1,0 +1,52 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: ingressgateway
+  labels:
+    release: istio
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "operation-service.scalable-microservice"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: operation-service
+  namespace: default
+spec:
+  gateways:
+  - istio-system/ingressgateway
+  hosts:
+  - "operation-service.scalable-microservice"
+  http:
+  - match:
+    - {}
+    route:
+    - destination:
+        host: operation-service.default.svc.cluster.local
+        port:
+          number: 80
+      weight: 100
+#---
+#apiVersion: networking.istio.io/v1alpha3
+#kind: ServiceEntry
+#metadata:
+#  name: kafka
+#spec:
+#  hosts:
+#  - "*.confluent.cloud"
+#  - "*.amazonaws.com"
+#  ports:
+#  - number: 9092
+#    name: kafka
+#    protocol: tcp
+#  resolution: NONE
+#  location: MESH_EXTERNAL

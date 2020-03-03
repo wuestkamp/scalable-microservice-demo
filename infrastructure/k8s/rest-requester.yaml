@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-requester
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: rest-requester
+  template:
+    metadata:
+      labels:
+        app: rest-requester
+    spec:
+      containers:
+      - image: byrnedo/alpine-curl:0.1.8
+        name: rest-requester
+        command:
+        - "sh"
+        - "-c"
+        - "while true; sleep 0.01; do curl --resolve 'operation-service.scalable-microservice:80:13.80.69.134' http://operation-service.scalable-microservice/operation/create/user-create -X POST -H 'Content-Type: application/json' -d '{\"name\": \"hans\"}'; echo; done"
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi

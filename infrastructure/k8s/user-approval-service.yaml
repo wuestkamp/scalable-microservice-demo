@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-approval-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-approval-service
+  template:
+    metadata:
+      labels:
+        app: user-approval-service
+      annotations:
+        sidecar.istio.io/inject: "false"
+        prometheus.io/scrape: 'true'
+        prometheus.io/path: '/metrics'
+        prometheus.io/port: '9308'
+    spec:
+      containers:
+      - image: danielqsj/kafka-exporter
+        name: kafka-exporter
+        command:
+        - "sh"
+        - "-c"
+        - "/bin/kafka_exporter --kafka.server $KAFKA_BOOTSTRAP_SERVERS --sasl.enabled --sasl.username $KAFKA_SASL_USERNAME --sasl.password $KAFKA_SASL_PASSWORD --tls.insecure-skip-tls-verify --tls.enabled"
+        envFrom:
+        - secretRef:
+            name: kafka
+        ports:
+        - name: telemetry
+          containerPort: 9308
+      - image: containerrregistryscalablemicroservice.azurecr.io/user_approval_service
+        name: user-approval-service
+        imagePullPolicy: Always
+        envFrom:
+        - secretRef:
+            name: kafka
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: user-approval-service
+spec:
+  maxReplicas: 10000
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: user-approval-service
+  metrics:
+  - type: Pods
+    pods:
+      metricName: "kafka_consumergroup_lag"
+      targetAverageValue: 5

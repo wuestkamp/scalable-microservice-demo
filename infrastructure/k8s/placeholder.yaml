@@ -1,0 +1,24 @@
+# ensures that always two more nodes are reserved for faster scaling
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: placeholder
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: placeholder
+  template:
+    metadata:
+      labels:
+        app: placeholder
+    spec:
+      terminationGracePeriodSeconds: 0
+      priorityClassName: placeholder
+      containers:
+      - image: nginx
+        name: placeholder
+        resources:
+          requests:
+            cpu: 1500m
+            memory: 1000Mi

@@ -1,0 +1,16 @@
+prometheus:
+  port: 9090
+  url: http://prometheus.istio-system
+rules:
+  default: false
+  resource: {}
+  custom:
+    - seriesQuery: 'kafka_consumergroup_lag'
+      resources:
+        overrides:
+          namespace: {resource: "namespace"}
+          pod_name: {resource: "pod"}
+      name:
+        matches: "kafka_consumergroup_lag"
+        as: "kafka_consumergroup_lag"
+      metricsQuery: 'avg_over_time(kafka_consumergroup_lag{topic="user-approve",consumergroup="user-approval-service"}[1m])'
