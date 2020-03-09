@@ -1,6 +1,7 @@
 # Scalable Microservice Infrastructure Example with K8s Istio Kafka
 
-Medium article: TODO
+Medium article: https://medium.com/@wuestkamp/scalable-microservice-demo-k8s-istio-kafka-344a2610eba3?sk=7404e77f2a42d21261707794afaed58d
+
 
 ## Setup project
 Install:
