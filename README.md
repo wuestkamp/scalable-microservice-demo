@@ -43,9 +43,11 @@ Run Grafana and then import the `./infrastructure/grafana/dashboard.json`.
 
 ## Use/build Services manually
 
-### build and run
+### Operation Service
+
+#### build and run
 ```
-cd services/operator
+cd services/operation
 
 # pass env file
 docker build -t operation-service . && \
@@ -65,7 +67,7 @@ docker build -t operation-service . && \
     operation-service
 ```
 
-### call and use
+#### call and use
 ```
 # add user
 curl -X POST \
@@ -80,9 +82,9 @@ curl "http://localhost:80/operation/get/6d232092-dceb-419f-bff1-2d686eace56c"
 ```
 
 
-## User Service
+### User Service
 
-### build and run
+#### build and run
 ```
 cd services/user
 
@@ -101,9 +103,9 @@ docker build -t user-service . && \
 ```
 
 
-## User Approval Service
+### User Approval Service
 
-### build and run
+#### build and run
 ```
 docker build -t user-approval-service . && \
     docker run --env-file ../../auth/kafka.env \
