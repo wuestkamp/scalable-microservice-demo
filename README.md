@@ -8,6 +8,7 @@ Install:
 * https://github.com/Mongey/terraform-provider-confluent-cloud
 * kubectl
 * docker
+* helm
 * helmfile
 
 Then:
