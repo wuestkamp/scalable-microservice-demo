@@ -63,8 +63,8 @@ kubectl apply -f infrastructure/k8s
 ####### helm #######
 #kubectl create ns prometheus-adapter
 cd infrastructure/helm
-#helmfile sync
-helmfile --helm-binary "/usr/local/opt/helm@3/bin/helm" sync
+helmfile sync
+#helmfile --helm-binary "/usr/local/opt/helm@3/bin/helm" sync
 cd ../..
 
 
