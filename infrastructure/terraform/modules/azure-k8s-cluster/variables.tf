@@ -3,7 +3,7 @@ variable "client_secret" {}
 
 variable "kubernetes_version" {
     // az aks get-versions --location "West Europe" --output table
-    default = "1.17.0"
+    default = "1.17.3"
 }
 
 variable "agent_count" {
