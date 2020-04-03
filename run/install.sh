@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 ####### credentials #######
 FILE=.env.local
 if [[ ! -f "$FILE" ]]; then
